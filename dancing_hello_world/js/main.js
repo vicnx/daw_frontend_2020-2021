@@ -1,7 +1,8 @@
 // let myApp
 'use strict'
-// import { docReady } from 'dancing_hello_world/js/core/core.js';
 
+import { docReady } from './core/core.js';
+import { stopball } from './controlers/stopball.js';
 let inicia = function(el,incX,incY) {
     let dw=function danceWorld(){
     
@@ -24,7 +25,7 @@ let inicia = function(el,incX,incY) {
 
 
 
-let start =function start(){
+export function start(){
     let speed = 15; //1 to 100
     let incX = speed * (Math.round(Math.random())?1:-1);
     let incY = speed * (Math.round(Math.random())?1:-1);
