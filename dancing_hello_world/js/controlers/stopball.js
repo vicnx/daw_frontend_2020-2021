@@ -1,4 +1,5 @@
 //import {start} from "../main.js";
+'use strict'
 function stopball(stateApp=false,interval){
     document.body.onkeyup = function(e){
         if(e.keyCode == 32){
@@ -11,3 +12,5 @@ function stopball(stateApp=false,interval){
         }
     }
 }
+
+// export { stopball }; 

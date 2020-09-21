@@ -1,10 +1,12 @@
 // let myApp
+'use strict'
+// import { docReady } from 'dancing_hello_world/js/core/core.js';
 
 let inicia = function(el,incX,incY) {
     let dw=function danceWorld(){
     
-        x =  el.style.left?parseInt(el.style.left,10):350;
-        y =  el.style.top?parseInt(el.style.top,10):400;
+        let x =  el.style.left?parseInt(el.style.left,10):350;
+        let y =  el.style.top?parseInt(el.style.top,10):400;
 
         el.style.left =  x + incX +"px";
         el.style.top = y + incY+"px";
@@ -23,7 +25,6 @@ let inicia = function(el,incX,incY) {
 
 
 let start =function start(){
-    
     let speed = 15; //1 to 100
     let incX = speed * (Math.round(Math.random())?1:-1);
     let incY = speed * (Math.round(Math.random())?1:-1);

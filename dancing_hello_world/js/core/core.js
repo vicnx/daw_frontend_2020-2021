@@ -1,3 +1,4 @@
+'use strict'
 function docReady(fn) {
     // see if DOM is already available
     if (document.readyState === "complete" || document.readyState === "interactive") {
@@ -7,4 +8,5 @@ function docReady(fn) {
     } else {
         document.addEventListener("DOMContentLoaded", fn);
     }
-}    
+}   
+// export { docReady }; 
