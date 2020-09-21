@@ -1,13 +1,6 @@
-let myApp
-let stateApp="stop"
+// let myApp
 
-let inicia = function(el) {
-    // DOM is loaded and ready for manipulation here
-    let speed = 15; //1 to 100
-    let incX = speed * (Math.round(Math.random())?1:-1);
-    let incY = speed * (Math.round(Math.random())?1:-1);
-    //let el=document.getElementById("el");
-
+let inicia = function(el,incX,incY) {
     let dw=function danceWorld(){
     
         x =  el.style.left?parseInt(el.style.left,10):350;
@@ -30,7 +23,11 @@ let inicia = function(el) {
 
 
 let start =function start(){
-    stateApp="run"
-    myApp=setInterval(inicia(document.getElementById("ball")),50);
+    
+    let speed = 15; //1 to 100
+    let incX = speed * (Math.round(Math.random())?1:-1);
+    let incY = speed * (Math.round(Math.random())?1:-1);
+    let myApp=setInterval(inicia(document.getElementById("ball"),incX,incY),50);
+    stopball("run",myApp);
 }
 docReady(start);
