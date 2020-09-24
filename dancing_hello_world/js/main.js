@@ -3,6 +3,8 @@
 
 import { docReady } from './core/core.js';
 import { stopball } from './controlers/stopball.js';
+import "../style/style.css";
+
 let inicia = function(el,incX,incY) {
     let dw=function danceWorld(){
     
