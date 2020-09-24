@@ -5,5 +5,5 @@ module.exports = {
       hot: true,
       contentBase: './',
       historyApiFallback: true
-    }
+    },
   };

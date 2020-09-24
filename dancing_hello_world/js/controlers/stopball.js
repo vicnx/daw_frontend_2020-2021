@@ -1,4 +1,4 @@
-import {start} from "/home/xente/Documentos/Cliente/daw_frontend_2020-2021/dancing_hello_world/js/main.js";
+import {start} from "../main.js";
 'use strict'
 export function stopball(stateApp=false,interval){
     document.body.onkeyup = function(e){
