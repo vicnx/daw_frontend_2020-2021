@@ -48,7 +48,7 @@ function start(){
         console.log(bingo.numbers);
         console.log(bingo.numbers_deleted);
     }
-
+602090734
     document.getElementById("btn_reset").onclick = function(){
         bingo.numbers=Array.from({length: 99}, (_, i) => i + 1);
         bingo.numbers_deleted=[];
