@@ -9,7 +9,9 @@ function bingo(){
                 this.mezclar_bombo();
                 this.get_number();
             }else{
-                console.log("FIN");
+                document.getElementById("restantes").innerHTML = this.boles.length;
+                document.getElementById("print_number").innerHTML = "NO MORE NUMBERS";
+                document.getElementById("boton_get").disabled  = true;
             }
         },
         reset: function(){
@@ -24,9 +26,15 @@ function bingo(){
         },
         get_number: function(){
             let position = Math.floor(Math.random() * this.boles.length);
+            let number = this.boles[position];
             console.log(this.boles[position])
             this.bolesextracted.push(this.boles.splice(position, 1)[0]);
             console.log(this.bolesextracted)
+            document.getElementById("restantes").innerHTML = this.boles.length;
+            document.getElementById("boton_get").disabled  = false;
+            document.getElementById("boton_get").innerhtml = "Give me another number!";
+            document.getElementById("print_number").innerHTML = number;
+            document.getElementById("numbers_deleted").innerHTML = this.bolesextracted;
             
         } 
     
@@ -115,12 +123,15 @@ function bingo(){
                     if(!check_dos(total)){
                         console.log(check_dos(total))
                         while(total_sort.includes(posicion)){
+                            cont3=false;
                             console.log(total_sort)
                             console.log("posicion en include: "+posicion)
-                            cont3=false;
                             posicion = Math.floor(Math.random() * 9);
+                            console.log("NUEVA posicion en include: "+posicion)
                         }
+                        cont3=true;
                     }
+                    console.log("cont3 "+cont3);
                     if(cont3==true){
                         if(rm_lines_one_two.indexOf(posicion) === -1){
                             rm_lines_one_two.push(posicion)
@@ -177,6 +188,7 @@ function bingo(){
                             cont3=false;
                             r = Math.floor(Math.random() * 9);
                         }
+                        cont3=true;
                     }
                     if(cont3==true){
                         if(forados_line_tres.indexOf(r) === -1){
@@ -199,6 +211,7 @@ function bingo(){
                 this.lines[2][forados_line_tres[i]]=null; 
             }
             console.log(total);
+            console.log("FINAL")
         },
 
         insert_html: function(){
@@ -222,21 +235,29 @@ function bingo(){
                 }
                 
             }
-            // var row = table.insertRow(0)
-            // var cell1=row.insertCell(0);
-            // cell1.innerHTML = this.lines[0][0];
         }
     }
     
 
     document.getElementById("card").onclick = function(){
+        document.getElementById("card_bucle").disabled = true;
         card.start();
-        console.log(card.lines)
+        
+        
+    }
+    document.getElementById("card_bucle").onclick = function(){
+        document.getElementById("card_bucle").disabled = true;
+        document.getElementById("card").disabled = true;
+        setInterval(function(){ 
+            card.start();
+        }, 1000);
+        
         
     }
 
     document.getElementById("boton_get").onclick = function(){
         bombo.start();
+        
     }
 
     document.getElementById("boton_reset").onclick = function(){
