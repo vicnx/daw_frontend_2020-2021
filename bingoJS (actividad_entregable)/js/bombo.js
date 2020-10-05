@@ -253,9 +253,7 @@ function bingo(){
 
     document.getElementById("card").onclick = function(){
         document.getElementById("card_bucle").disabled = true;
-        card.start();
-        
-        
+        card.start();  
     }
     document.getElementById("card_bucle").onclick = function(){
         document.getElementById("card_bucle").disabled = true;
@@ -274,6 +272,20 @@ function bingo(){
 
     document.getElementById("boton_reset").onclick = function(){
         bombo.reset();
+    }
+    //para que funcione todo a la vez
+    document.getElementById("start_all").onclick = function(){
+        bombo.reset();
+        document.getElementById("start_all").disabled = true;
+        start = setInterval(function(){ 
+            card.start();
+            bombo.start();
+            if(bombo.boles.length <=0){
+                document.getElementById("text_start").innerHTML = "FIN";
+                document.getElementById("start_all").disabled = false;
+                clearInterval(start);
+            }
+        }, 1000); 
     }
     
     bombo.crear_bombo();
