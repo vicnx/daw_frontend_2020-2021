@@ -80,6 +80,17 @@ function bingo(){
                 })
                 
             }
+            //le damos la vuelta para ordenar los numeros.
+            let order=this.lines[0].map((_, colIndex) => this.lines.map(row => row[colIndex]));
+            console.log(this.lines);
+            for (let j = 0; j < order.length; j++) {
+                //ordenamos
+                order[j].sort((a,b) => a-b);
+            }
+            console.log(order)
+            //le volvemos a dar la vuelta al array ya ordenado y lo guardamos en this lines
+            this.lines=order[0].map((_, colIndex) => order.map(row => row[colIndex]))
+            // console.log(order[0].sort((a,b) => a-b))
             // this.insert_forados();
         },
         insert_forados: function(){
@@ -219,6 +230,7 @@ function bingo(){
             var table = document.getElementById("table");
             //por cada linea
             for (let i = 0; i < this.lines.length; i++) {
+
                 var row = table.insertRow(i)
                 //por cada ubicacion de cada linea
                 for (let j = 0; j < this.lines[i].length; j++) {
