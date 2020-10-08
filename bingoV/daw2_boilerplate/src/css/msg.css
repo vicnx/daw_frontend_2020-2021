@@ -1,0 +1,23 @@
+.neons {
+   margin-top: 10rem;
+   text-align: center;
+   font-size: 9rem;
+   text-align: center;
+    font-weight: bold;
+   -webkit-animation: glow 2s ease-in-out infinite alternate;
+   -moz-animation: glow 2s ease-in-out infinite alternate;
+   animation: glow 2s ease-in-out infinite alternate;
+}
+
+
+@-webkit-keyframes glow {
+     from {
+      color: rgb(255, 140, 240);
+    text-shadow: 0 0 10px #ff00c8, 0 0 20px #ff00c8, 0 0 30px #ff00c8, 0 0 40px #ff00c8, 0 0 50px #ff00c8, 0 0 60px #ff00c8, 0 0 70px #ff00c8, 0 0 90px #ff00c8;
+  }
+  
+  to {
+     color: rgb(255, 0, 0);
+    text-shadow: 0 0 20px #ff00c8, 0 0 30px #ff00c8, 0 0 40px #ff00c8, 0 0 50px #ff00c8, 0 0 60px #ff00c8, 0 0 70px #ff00c8, 0 0 80px #ff00c8, 0 1 90px #ff00c8;
+  }
+}
