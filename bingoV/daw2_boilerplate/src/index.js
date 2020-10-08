@@ -4,13 +4,14 @@ import './css/msg.css';
 import {docReady} from './js/core/core.js'; 
 import './js/card.js';
 import {Bombo} from './js/bombo.js';
-import {generateBingoCard,renderBingoCard} from './js/card.js';
+import {Card} from './js/card.js';
 
 export let app = (() => {
     //let el = document.getElementById("ball");
     let myApp;
     let bombo;
-    let myCard;
+    let myCard = new Card(document.getElementById('bingoCard'));
+    let myCard2 = new Card(document.getElementById('bingoCard2'));
     let stateApp="stop"
     
     let play =  () =>{    
@@ -22,7 +23,9 @@ export let app = (() => {
             ballDiv.textContent = num;
             document.getElementById('balls').appendChild(ballDiv);
             //innerHTML = "<h1>"+bombo.getExtractedNumbers()+"</h1>";
-            document.getElementById('bingoCard').innerHTML = renderBingoCard(myCard,bombo.getExtractedNumbers());
+            myCard.render(bombo.getExtractedNumbers());
+            myCard2.render(bombo.getExtractedNumbers());
+            // document.getElementById('bingoCard').innerHTML = myCard.render(bombo.getExtractedNumbers());
             //document.getElementById('bingoCard').innerHTML = renderBingoCard(generateBingoCard());
         }else{
             stop();
@@ -36,10 +39,11 @@ export let app = (() => {
     let start = () => {
         bombo = new Bombo();
         stateApp = "run";
-        myCard = generateBingoCard();
-
-        document.getElementById('bingoCard').innerHTML = renderBingoCard(myCard);
-        myApp = setInterval(play,1000); 
+        myCard.render(bombo.getExtractedNumbers());//le pasamos al render los numeros.
+        myCard2.render(bombo.getExtractedNumbers());//le pasamos al render los numeros.
+        console.log(myCard)
+        // document.getElementById('bingoCard').innerHTML = myCard.render(bombo.getExtractedNumbers());
+        myApp = setInterval(play,100); 
     }
 
     return {start: start
