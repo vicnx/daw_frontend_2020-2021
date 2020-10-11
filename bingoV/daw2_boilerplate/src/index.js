@@ -13,7 +13,23 @@ export let app = (() => {
     let myCard = new Card(document.getElementById('bingoCard'));
     let myCard2 = new Card(document.getElementById('bingoCard2'));
     let stateApp="stop"
+    let dolinea=false;
+    let dobingo=false;
     
+    let linea = ()=>{
+        dolinea=true;
+        document.getElementById("msg").innerHTML = "LINEA";
+        return true;
+    }
+
+    let bingo = ()=>{
+        dobingo=true;
+
+        document.getElementById("msg").innerHTML = "BINGO!";
+        app.stop();
+        return true;
+    }
+
     let play =  () =>{    
         let num=bombo.pickNumber();
         if (num){
@@ -52,6 +68,10 @@ export let app = (() => {
                 (stateApp == "run")?stop():start();  
             },
             stop:stop,
+            linea:linea,
+            bingo:bingo,
+            dolinea:dolinea,
+            dobingo:dobingo
     };
         
 })();

@@ -1,4 +1,14 @@
 body {background-color: white;}
+
+.bingoboard{
+    display: flex;
+    flex-wrap: wrap;
+
+}
+.bingoboard div{
+    margin: 20px;
+}
+
 #balls {
     display: inline-block;
     word-wrap: break-word;

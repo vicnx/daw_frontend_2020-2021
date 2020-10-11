@@ -2,6 +2,8 @@ import { app } from "../index.js";
 export class Card {
      constructor(elemento){
           this.elemento = elemento;
+          let bingo=false;
+          let linea=false;
           let templateRow = [0,1,2,3,4,5,6,7,8];
           let cardMatrix = [[...templateRow],[...templateRow],[...templateRow]];
           //Transpose matrix to fullfill all cells with random numbers
@@ -36,7 +38,14 @@ export class Card {
                              // console.log(cellValue)
                              
                              if (extractedBalls && extractedBalls.indexOf(cellValue) >= 0){
-                                  checklineandbingo(extractedBalls,cardMatrix);
+                                  console.log(bingo);
+                                  console.log(linea);
+                                  if(linea==false){
+                                   checklineandbingo(extractedBalls,cardMatrix);
+                                  }
+                                  if(bingo==false){
+                                   checkbingo(extractedBalls,cardMatrix);
+                                  }
                                   // console.log(extractedBalls.indexOf(cellValue))
                                   out+="<th class='extracted'>"+cellValue+"</th>";     
                              }else{
@@ -91,20 +100,40 @@ function checklineandbingo(extractedBalls,cardMatrix){
           // console.log(checker(extractedBalls,filtered));
           if(checker(extractedBalls,filtered)){
                if(!lines.includes(index)){
-                    bingo++;
-                    console.log(bingo)
-                    console.log("LINEA! "+parseInt(index+1))
-                    document.getElementById("msg").innerHTML = "LINEA: "+parseInt(index+1);
-                    lines.push(index);
-                    console.log(lines);
+                    app.dolinea=app.linea();
+                    // bingo++;
+                    // console.log(bingo)
+                    // console.log("LINEA! "+parseInt(index+1))
+                    // document.getElementById("msg").innerHTML = "LINEA: "+parseInt(index+1);
+                    // lines.push(index);
+                    // console.log(lines);
                }
-               console.log("lines"+lines)
-               if(bingo>=3){
-                    document.getElementById("msg").innerHTML = "BINGO!";
-                    app.stop();
-               }
+               // console.log("lines"+lines)
+               // if(bingo>=3){
+               //      document.getElementById("msg").innerHTML = "BINGO!";
+               //      app.stop();
+               // }
           }
      })
+}
+
+function checkbingo(extractedBalls,cardMatrix){
+     var numbers=[];
+     cardMatrix.forEach(function(card,index){
+          var filtered = card.filter(function (el) {
+               if(el !=null){
+                    numbers.push(el);
+               }
+               
+               return el != null;
+          });
+     })
+     // console.log(numbers);
+     let checker = (arr, target) => target.every(v => arr.includes(v));//es una funcion que comprueba que toda la linea esta en las bolas extraidasd
+     if(checker(extractedBalls,numbers)){
+          app.dobingo=app.bingo();
+     }
+
 }
 
 // export {generateBingoCard,renderBingoCard};
