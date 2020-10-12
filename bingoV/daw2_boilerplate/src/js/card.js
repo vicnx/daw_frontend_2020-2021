@@ -1,7 +1,7 @@
 import { app } from "../index.js";
+import { pubsub } from "./pubsub.js";
 export class Card {
      constructor(elemento){
-          this.elemento = elemento;
           let bingo=false;
           let linea=false;
           let templateRow = [0,1,2,3,4,5,6,7,8];
@@ -25,7 +25,8 @@ export class Card {
           row2Blanks.forEach((elem)=>cardMatrix[1][elem]=null);//Put a null in every empty picked cell row2
           row3Blanks.forEach((elem)=>cardMatrix[2][elem]=null);
 
-          this.render = function(extractedBalls){
+          let render = pubsub.subscribe('number', function(data){
+               let extractedBalls = data.getnumbers;
                let out="<table class='bingoCard'>"
          
                cardMatrix.forEach((row)=>{
@@ -38,7 +39,10 @@ export class Card {
                              // console.log(cellValue)
                              
                              if (extractedBalls && extractedBalls.indexOf(cellValue) >= 0){
-                                  console.log(bingo);
+                                  //esta a la espera de la notificacion de linea (cuando se hace linea pone la variable linea a true)
+                                  pubsub.subscribe('linedone',function(data){
+                                       linea=true;
+                                  })
                                   console.log(linea);
                                   if(linea==false){
                                    checklineandbingo(extractedBalls,cardMatrix);
@@ -56,8 +60,8 @@ export class Card {
                     out+="</tr>";
                })
                out+="</table>";
-               this.elemento.innerHTML = out;
-          }
+               elemento.innerHTML = out;
+          });
      }
 }
 //Transpose a matrix
@@ -100,19 +104,10 @@ function checklineandbingo(extractedBalls,cardMatrix){
           // console.log(checker(extractedBalls,filtered));
           if(checker(extractedBalls,filtered)){
                if(!lines.includes(index)){
-                    app.dolinea=app.linea();
-                    // bingo++;
-                    // console.log(bingo)
-                    // console.log("LINEA! "+parseInt(index+1))
-                    // document.getElementById("msg").innerHTML = "LINEA: "+parseInt(index+1);
-                    // lines.push(index);
-                    // console.log(lines);
+                    // linea=app.linea();
+                    console.log("linea");
+                    pubsub.publish('linea');
                }
-               // console.log("lines"+lines)
-               // if(bingo>=3){
-               //      document.getElementById("msg").innerHTML = "BINGO!";
-               //      app.stop();
-               // }
           }
      })
 }
@@ -131,7 +126,9 @@ function checkbingo(extractedBalls,cardMatrix){
      // console.log(numbers);
      let checker = (arr, target) => target.every(v => arr.includes(v));//es una funcion que comprueba que toda la linea esta en las bolas extraidasd
      if(checker(extractedBalls,numbers)){
-          app.dobingo=app.bingo();
+          // bingo=app.bingo();
+          console.log("BINGO")
+          pubsub.publish('bingo');
      }
 
 }
