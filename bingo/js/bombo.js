@@ -2,6 +2,7 @@ class Bombo{
     constructor(){
         this.#boles = Array.from({length:99},(_,i) => i + 1);
         this.#bolesExtracted = [];
+
     }
     shuffle(){
         this.#boles.sort((a,b) => Math.random()-0.5);
@@ -15,7 +16,9 @@ class Bombo{
         }else{
             return false;
         }
+
     }
+    
     getExtractedNumbers(){
         console.log(this.#bolesExtracted);
     }
