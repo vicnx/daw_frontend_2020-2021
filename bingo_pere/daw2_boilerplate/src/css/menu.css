@@ -36,6 +36,7 @@ body{
 .startscreen__menu__players{
     display: flex;
     flex-direction: column;
+    width: 100%;
     /* justify-content: center; */
     align-items: center;
 }
@@ -75,8 +76,14 @@ body{
 }
 
 .btn:hover:enabled{
+    cursor: pointer;
     background: rgb(255, 220, 220);
 }
+/* .btn:active{
+    border: 5px solid;
+    box-shadow: 5px rgb(250, 150, 150);
+} */
+
 button:disabled,
 button[disabled]{
   border: 1px solid #999999;
@@ -85,8 +92,8 @@ button[disabled]{
 }
 
 .startscreen__menu__players__list{
-    min-height: 450px;
-    max-height: 450px;
+    min-height: 390px;
+    max-height: 390px;
     overflow-y: auto;
     overflow-x: hidden;
 }
