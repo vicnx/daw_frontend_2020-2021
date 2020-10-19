@@ -20,7 +20,7 @@ export class Bombo{
         }
 
         let rendercaja = (boles) => {
-            let html = "CAJA";
+            // let html = "CAJA";
             boles.forEach(bola => {
                 let cajaballDiv = document.createElement('div');
                 cajaballDiv.className = 'bingoBall';
