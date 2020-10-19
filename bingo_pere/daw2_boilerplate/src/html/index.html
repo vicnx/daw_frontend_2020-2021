@@ -7,12 +7,25 @@
     <!-- <link rel="stylesheet" href="style/style.css" > -->
 </head>
 <body>
+    <div id="startscreen" class="startscreen">
+        <h1>BINGO!</h1>
+        <div id="menu" class="startscreen__menu">
+            <div class="startscreen__menu__players">
+                <div class="startscreen__menu__players startscreen__menu__players__list" id="players">
+                    <h2>PLAYERS</h2>
+                </div>
+            </div>
+            <button id="addplayer">ADD PLAYER</button>
+            <button id="startgame" disabled>Start game</button>
+        </div>
+    </div>
+
     <div id="caja"></div>
     <div id="balls"></div>
-    <div class="bingoboard">
-        <div id="bingoCard1"></div><br>
-        <div id="bingoCard2"></div>
-        <div id="info"></div>
+    <div id="info"></div>
+    <div id="bingoboard" class="bingoboard">
+        <!-- <div id="bingoCard1"></div><br>
+        <div id="bingoCard2"></div> -->
     </div>
     
 </body>

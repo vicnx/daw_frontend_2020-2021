@@ -1,6 +1,7 @@
 export class BingoCard{   
     
-     constructor(player_,rootElement,pubSub=undefined){
+     constructor(player_,pubSub=undefined){
+          let board=document.getElementById('bingoboard');
           let player = player_;
           let templateRow = [0,1,2,3,4,5,6,7,8];
           let cardMatrix = [[...templateRow],[...templateRow],[...templateRow]];
@@ -27,8 +28,9 @@ export class BingoCard{
            
           //return this.cardMatrix;  
           let render = (extractedBalls=[]) => {
-               let out="<h1>Player "+player+"</h1>";
-               out+="<table class='bingoCard'>"         
+               //esta funcion esta modificada para que modifique cada tarjeta de cada jugador
+               let cardPlayer=document.getElementById(player);
+               let out="";
                cardMatrix.forEach((row)=>{
                     out+="<tr>"
                     row.forEach((cellValue)=>{
@@ -44,18 +46,37 @@ export class BingoCard{
                     });
                     out+="</tr>";
                })
-               out+="</table>";
-               rootElement.innerHTML = out;
+               // console.log(board);
+               cardPlayer.innerHTML = out;
                checkBingo(cardMatrix,extractedBalls,pubSub,player);   
-          }          
-          render();
+          }  
+          
+          let draw_bingo_cards = () =>{
+               let out="<div id='div_"+player+"'><h1>"+player+"</h1>";
+               out+="<table id='"+player+"' class='bingoCard'>"         
+               cardMatrix.forEach((row)=>{
+                    out+="<tr>"
+                    row.forEach((cellValue)=>{
+                    if (cellValue==null){
+                         out+="<th class='nulo'></th>";
+                    }else{
+                         out+="<th>"+cellValue+"</th>";
+                    }
+                    });
+                    out+="</tr>";
+               })
+               out+="</table></div>";
+               board.innerHTML += out;
+          }
+          //primero pintamos las tarjetas d elos jugadores
+          draw_bingo_cards();
           if (pubSub) pubSub.subscribe("New Number",render);
           
      }     
 }
 function checkBingo(cardMatrix,extractedBalls,pubSub,player){
      let bingo=true;
-     
+     // console.log("checkbingo");
      cardMatrix.forEach((row)=>{
           let linia = row.filter((val)=> {if (extractedBalls.indexOf(val)<=0) return val }).length;   
           // console.log(row.filter((val)=> {if (extractedBalls.indexOf(val)<=0) return val }).length);      
