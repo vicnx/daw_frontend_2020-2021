@@ -15,11 +15,11 @@ body{
     font-weight: 100;
     font-size: 12px;
     line-height: 30px;
-    color: #777;
+    color: rgb(0, 0, 0);
     background-color: LightCoral;
     height: 100%;
-    flex-grow: 1; /* make it stretch to the bottom even if little content */
-    overflow-y: scroll;
+    /* flex-grow: 1; make it stretch to the bottom even if little content */
+    /* overflow-y: scroll; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -27,6 +27,7 @@ body{
 }
 .startscreen__menu{
     width: 400px;
+    height: 500px;
     background: #F9F9F9;
     padding: 25px;
     margin: 150px 0;
@@ -35,7 +36,7 @@ body{
 .startscreen__menu__players{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
 }
 .startscreen__menu__players .player_div{
@@ -57,4 +58,35 @@ body{
 .startscreen__menu__players .player_div button{
     margin: 0 0 5px;
     padding: 10px;
+}
+
+.btn{
+    margin-top: 25px;
+    background: white;
+    /* border: 0; */
+    border-radius: 0.25rem;
+    padding: 0.5rem 1.5rem;
+    /* transition: all 0.3s ease-in; */
+    cursor: pointer;
+    color: rgb(0, 0, 0);
+    font-size: 1rem;
+    font-weight: 600px;
+    border: 1px solid black;
+}
+
+.btn:hover:enabled{
+    background: rgb(255, 220, 220);
+}
+button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+
+.startscreen__menu__players__list{
+    min-height: 450px;
+    max-height: 450px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
