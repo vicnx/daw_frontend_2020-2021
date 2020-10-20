@@ -5,7 +5,7 @@ import {docReady} from './js/core/core.js';
 import './js/card.js';
 import {Bombo} from './js/bombo.js';
 import {BingoCard} from './js/card.js';
-import {Player} from './js/player.js';
+// import {Player} from './js/player.js';
 import {PubSub} from './js/core/pubSub.js';
 
 const app = (() => {
@@ -81,11 +81,11 @@ const app = (() => {
         }
 
         addplayer.onclick= function(){
-            let player = new Player();
-            // let player = document.createElement('div');
-            // player.innerHTML += "<div class='player_div'><input class='input_player' type='text' value='Player "+count_players+"' placeholder='Introduce el nombre del player' class='player_input''/><button class='delete'>X</button></div>";
+            // let player = new Player();
+            let player = document.createElement('div');
+            player.innerHTML += "<div class='player_div'><input class='input_player' type='text' value='Player "+count_players+"' placeholder='Introduce el nombre del player' class='player_input''/><button class='delete'>X</button></div>";
             count_players++;
-            // players.appendChild(player);
+            players.appendChild(player);
             //activamos el boton start
             if (inputs.length > 0 ){
                 startgame.disabled = false;
