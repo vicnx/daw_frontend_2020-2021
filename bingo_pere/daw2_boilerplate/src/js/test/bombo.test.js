@@ -2,7 +2,15 @@
 import {Bombo} from '../bombo.js';
 
 describe('Generate bingo bombo', () => {
-  let bombo = new Bombo();  
+  //mock para que funcione
+  document.body.innerHTML =
+  '<div>' +
+  '  <div id="balls" />' +
+  '  <div id="caja" />' +
+  '</div>';
+
+  let bombo = new Bombo(document.getElementById('balls'),document.getElementById('caja'));  
+  
   test('Not number extracted yet', () => {
     expect(bombo.getExtractedNumbers().length).toEqual(0)
   });
@@ -17,7 +25,7 @@ describe('Generate bingo bombo', () => {
   });
 
   test('Numbers between 1 and 90', () => {
-    bombo = new Bombo();  
+    let bombo = new Bombo(document.getElementById('balls'),document.getElementById('caja'));  
     let num=bombo.pickNumber();
     do{        
         expect((num>=1 & num<=90)).toBeTruthy();
@@ -27,7 +35,7 @@ describe('Generate bingo bombo', () => {
   });
 
   test('Not duplicates', () => {
-    bombo = new Bombo();  
+    let bombo = new Bombo(document.getElementById('balls'),document.getElementById('caja'));  
     let extracted=[]
     let num=bombo.pickNumber();    
     do{                
@@ -35,7 +43,6 @@ describe('Generate bingo bombo', () => {
         num=bombo.pickNumber();        
     }while(num!=false); 
     expect(!hasDuplicates(extracted)).toBeTruthy();
-    
   });
 
 

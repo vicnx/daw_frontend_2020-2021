@@ -12,7 +12,6 @@ let app = (() => {
     let myApp;
     let bombo;
     let pubSub = new PubSub();
-    let cardPlayer1,cardPlayer2;
     let stateApp="stop";
     
     
