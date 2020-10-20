@@ -1,9 +1,13 @@
 
-import {generateBingoCard} from '../card.js';
+import {BingoCard} from '../card.js';
 
 
 describe('Generate bingo card', () => {
-  let card = generateBingoCard();  
+document.body.innerHTML =
+'<div>' +
+'  <div id="bingoboard" />' +
+'</div>';
+  let card = new BingoCard("test");  
   test('3 rows expected', () => {
     expect(card.length).toEqual(3)
   });
