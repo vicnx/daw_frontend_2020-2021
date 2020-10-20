@@ -4,8 +4,6 @@ export class Player{
         this.setName = function(name) { _name = name; }
         this.getName = function() { return _name; }
 
-
-
         function render(){
             let players=document.getElementById('players');
             let p = document.createElement('div');
