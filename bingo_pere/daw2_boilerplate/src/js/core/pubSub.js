@@ -12,7 +12,7 @@ export class PubSub {
     }
 
     unsubscribe(event) {
-      console.log(event);
+      // console.log(event);
 
       //lo que hacemos es un splice al index que sea de ese evento.
       this.handlers.splice(this.handlers.findIndex(e => e.event == event),1);
@@ -29,7 +29,7 @@ export class PubSub {
       // this.handlers.map(function(event2,index){
 
       // })
-      console.log(this.handlers);
+      // console.log(this.handlers);
     }
   
     publish(event, args) {

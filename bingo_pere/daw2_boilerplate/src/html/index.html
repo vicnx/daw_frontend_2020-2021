@@ -9,7 +9,17 @@
 <body>
     <div id="startscreen" class="startscreen">
         <h1>BINGO!</h1>
-        <div id="menu" class="startscreen__menu">
+        <div id="inicio" class="startscreen__menu--inicio">
+            <div class="startscreen__menu__games">
+                <h2>START</h2>
+                <div class="startscreen__menu__games startscreen__menu__games__list" id="games"></div>
+
+            </div>
+            <button class="btn" id="joingame">Join game</button>
+            <button class="btn" id="newgame">New game</button>
+        </div>
+
+        <div id="menu" class="startscreen__menu--addplayers" style="display: none;">
             <div class="startscreen__menu__players">
                 <h2>PLAYERS</h2>
                 <div class="startscreen__menu__players startscreen__menu__players__list" id="players"></div>
@@ -17,6 +27,9 @@
             <button class="btn" id="addplayer">ADD PLAYER</button>
             <button class="btn" id="startgame" disabled>Start game</button>
         </div>
+        
+
+
     </div>
     <div id="caja"></div>
     <div id="balls"></div>

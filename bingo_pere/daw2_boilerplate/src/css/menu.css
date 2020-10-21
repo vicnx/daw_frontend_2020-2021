@@ -25,7 +25,7 @@ body{
     justify-content: center;
     align-items: center;
 }
-.startscreen__menu{
+.startscreen__menu--addplayers{
     width: 400px;
     height: 500px;
     background: #F9F9F9;
@@ -33,7 +33,23 @@ body{
     margin: 150px 0;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
+.startscreen__menu--inicio{
+    width: 400px;
+    height: 200px;
+    background: #F9F9F9;
+    padding: 25px;
+    margin: 150px 0;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
 .startscreen__menu__players{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+.startscreen__menu__games{
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -94,6 +110,13 @@ button[disabled]{
 .startscreen__menu__players__list{
     min-height: 390px;
     max-height: 390px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.startscreen__menu__games__list{
+    min-height: 90px;
+    max-height: 90px;
     overflow-y: auto;
     overflow-x: hidden;
 }
