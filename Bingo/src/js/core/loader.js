@@ -27,10 +27,19 @@ export let loaderAlerts = (templateHtml,callback,type) => {
     }
 
     if(type=="bingo"){
-        document.getElementById("info").innerHTML += '<button style="display: none"class="btn" id="bingo_btn">Main Menu</button>'
         document.getElementById("bingo_btn").style.display = "block"
+        document.getElementById("info").innerHTML += '<button class="btn" id="bingo_btn_info">Main Menu</button>';
+
         document.getElementById("bingo_btn").onclick = function(){
+            el.remove();
             if(callback != null){
+                callback();
+            }     
+        };
+
+        document.getElementById("bingo_btn_info").onclick = function(){
+            if(callback != null){
+                
                 callback();
             }     
         };
