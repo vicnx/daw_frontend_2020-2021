@@ -1,6 +1,6 @@
 /* body {background-color: white;} */
 .active{
-    background-color: red !important;
+    background-color: rgb(0, 162, 255) !important;
 }
 .bingoboard{
     display: flex;

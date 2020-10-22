@@ -55,15 +55,6 @@ export let loaderAlerts = (templateHtml,callback,type) => {
         }      
         
     }
-    // window.onclick = function(event) {
-    //     el.remove();
-        
-    //     // el.style.display = "none"; 
-    //     if(callback != null){
-    //         debug("span onclcik")
-    //         callback();
-    //     } 
-    // }
     
 }
 
