@@ -4,10 +4,9 @@ import { debug} from "../js/core/core";
 export function mainMenu(){
     let mainMenu = {
         html:`<div id="startscreen_main" class="startscreen">
-                <h1>BINGO!</h1>
                 <div id="inicio" class="startscreen__menu--inicio">
                     <div class="startscreen__menu__games">
-                        <h2>START</h2>
+                        <h1>BINGO</h1>
                         <div class="startscreen__menu__games startscreen__menu__games__list" id="games"></div>
 
                     </div>
@@ -35,7 +34,7 @@ export function addPlayersMenu(){
         html:`<div id="startscreen_add" class="startscreen">
                 <div id="menu" class="startscreen__menu--addplayers" >
                     <div class="startscreen__menu__players">
-                        <h2>PLAYERS</h2>
+                        <h2>ADD PLAYERS</h2>
                         <div class="startscreen__menu__players startscreen__menu__players__list" id="players"></div>
                     </div>
                     <button class="btn" id="addplayer">ADD PLAYER</button>
