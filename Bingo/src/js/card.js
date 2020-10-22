@@ -1,4 +1,6 @@
 import {debug} from './core/core.js'; 
+import { loaderCards } from './core/loader.js';
+import {renderCard} from '../templates/cardTemplate.js'; 
 
 
 export class BingoCard{   
@@ -29,51 +31,65 @@ export class BingoCard{
           row2Blanks.forEach((elem)=>cardMatrix[1][elem]=null);//Put a null in every empty picked cell row2
           row3Blanks.forEach((elem)=>cardMatrix[2][elem]=null);  
            
-          //return this.cardMatrix;  
-          let render = (extractedBalls=[]) => {
-               //esta funcion esta modificada para que modifique cada tarjeta de cada jugador
-               let cardPlayer=document.getElementById(player);
-               let out="";
-               cardMatrix.forEach((row)=>{
-                    out+="<tr>"
-                    row.forEach((cellValue)=>{
-                    if (cellValue==null){
-                         out+="<th class='nulo'></th>";
-                    }else{
-                         if (extractedBalls && extractedBalls.indexOf(cellValue) >= 0){
-                              out+="<th class='extracted'>"+cellValue+"</th>";                                  
-                         }else{
-                              out+="<th>"+cellValue+"</th>";
-                         }
-                    }
-                    });
-                    out+="</tr>";
-               })
-               debug(board);
-               cardPlayer.innerHTML = out;
-               checkBingo(cardMatrix,extractedBalls,pubSub,player);   
-          }  
+          //NO SE UTILIZA
+          // let render = (extractedBalls=[]) => {
+               
+          //      // debug(extractedBalls)
+          //      //esta funcion esta modificada para que modifique cada tarjeta de cada jugador
+          //      let cardPlayer=document.getElementById(player);
+          //      let out="";
+          //      cardMatrix.forEach((row)=>{
+          //           out+="<tr>"
+          //           row.forEach((cellValue)=>{
+          //           if (cellValue==null){
+          //                out+="<th class='nulo'></th>";
+          //           }else{
+          //                if (extractedBalls && extractedBalls.indexOf(cellValue) >= 0){
+          //                     out+="<th class='extracted'>"+cellValue+"</th>";                                  
+          //                }else{
+          //                     out+="<th>"+cellValue+"</th>";
+          //                }
+          //           }
+          //           });
+          //           out+="</tr>";
+          //      })
+          //      // debug(board);
+          //      cardPlayer.innerHTML = out;
+          //      checkBingo(cardMatrix,extractedBalls,pubSub,player);   
+          // }  
+
+          let paint_number_ball = (data) =>{
+               if(document.getElementById("number_card_"+data.num)){
+                    let render_num=document.getElementById("number_card_"+data.num);
+                    render_num.classList.add("active");
+                    checkBingo(cardMatrix,data.extractedBalls,pubSub,player);   
+               }
+          }
           
-          let draw_bingo_cards = () =>{
-               let out="<div id='div_"+player+"'><h1>"+player+"</h1>";
-               out+="<table id='"+player+"' class='bingoCard'>"         
-               cardMatrix.forEach((row)=>{
-                    out+="<tr>"
-                    row.forEach((cellValue)=>{
-                    if (cellValue==null){
-                         out+="<th class='nulo'></th>";
-                    }else{
-                         out+="<th>"+cellValue+"</th>";
-                    }
-                    });
-                    out+="</tr>";
-               })
-               out+="</table></div>";
-               board.innerHTML += out;
+          let draw_bingo_cards = (extractedBalls=[]) =>{
+               loaderCards(renderCard,player,cardMatrix,extractedBalls);
+               // let out="<div id='div_"+player+"'><h1>"+player+"</h1>";
+               // out+="<table id='"+player+"' class='bingoCard'>"         
+               // cardMatrix.forEach((row)=>{
+               //      out+="<tr>"
+               //      row.forEach((cellValue)=>{
+               //      if (cellValue==null){
+               //           out+="<th class='nulo'></th>";
+               //      }else{
+               //           out+="<th>"+cellValue+"</th>";
+               //      }
+               //      });
+               //      out+="</tr>";
+               // })
+               // out+="</table></div>";
+               // board.innerHTML += out;
           }
           //primero pintamos las tarjetas d elos jugadores
           draw_bingo_cards();
-          if (pubSub) pubSub.subscribe("New Number",render);
+          if (pubSub) pubSub.subscribe("New Number",paint_number_ball);
+          // if (pubSub) pubSub.subscribe("Last Number",render);
+          // if (pubSub) pubSub.subscribe("New Number",render);
+          
           
      }     
 }

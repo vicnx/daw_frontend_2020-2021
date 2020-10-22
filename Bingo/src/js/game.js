@@ -1,9 +1,9 @@
 import {Bombo} from './bombo.js';
 import {BingoCard} from './card.js';
 import { PubSub } from './core/pubSub.js';
-import {bingolineaTemplate} from './../templates/modal.js'
+import {bingolineaTemplate} from './../templates/modalTemplate.js'
 import {debug} from './core/core.js'; 
-import {addPlayersMenu} from './../templates/menus.js'; 
+import {addPlayersMenu} from './../templates/menusTemplate.js'; 
 import {loaderMenus,loaderAlerts} from './core/loader.js'; 
 
 
@@ -19,9 +19,14 @@ export class Game{
 
         let play = () =>{    
             let num=bombo.pickNumber();
-           
+            //creamos data pasandole todos los numeros (para comprobar el bingo) y el ultimo numero (para pintar en la tarjeta)
+            let data = {
+                extractedBalls: bombo.getExtractedNumbers(),
+                num: num
+            }
             if (num){           
-                pubSub.publish("New Number",bombo.getExtractedNumbers());
+                pubSub.publish("New Number",data);
+                // pubSub.publish("Last Number",num);
             }else{
                 stop();
             }

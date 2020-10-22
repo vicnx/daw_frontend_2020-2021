@@ -5,7 +5,7 @@ import './css/modal.css';
 import {docReady,debug} from './js/core/core.js'; 
 import {loaderMenus} from './js/core/loader.js'; 
 import './js/card.js';
-import {mainMenu} from './templates/menus.js'; 
+import {mainMenu} from './templates/menusTemplate.js'; 
 // import { Game } from './js/game';
 
 const app = (() => {

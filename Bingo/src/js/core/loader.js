@@ -31,7 +31,6 @@ export let loaderAlerts = (templateHtml,callback,type) => {
         }      
         
     }
-  
     window.onclick = function(event) {
         el.remove();
         // el.style.display = "none"; 
@@ -39,5 +38,16 @@ export let loaderAlerts = (templateHtml,callback,type) => {
             callback();
         } 
     }
+    
+}
+
+export let loaderCards = (template,player,cardMatrix,extractedBalls) => {
+    debug(template(player,cardMatrix,extractedBalls).html);
+    let parser = new DOMParser();
+    let menu = parser.parseFromString(template(player,cardMatrix,extractedBalls).html, "text/html");
+    let el = menu.body.firstChild;
+    document.body.appendChild(el);
+    //params es por si queremos mandar algun callback a las funciones internaas de la plantilla
+    // template().functions(params); //cargamos las funciones de los botones de la plantilla de ese menu
     
 }
