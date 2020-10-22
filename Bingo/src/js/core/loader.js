@@ -22,6 +22,7 @@ export let loaderAlerts = (templateHtml,callback,type) => {
     if(type == "line"){
         setTimeout(function(){ el.remove(); }, 2000);
     }
+    
 
     span.onclick = function() {
         el.remove();

@@ -3,9 +3,9 @@ import {BingoCard} from './card.js';
 import { PubSub } from './core/pubSub.js';
 import {bingolineaTemplate} from './../templates/modalTemplate.js'
 import {debug} from './core/core.js'; 
-import {addPlayersMenu} from './../templates/menusTemplate.js'; 
+import {mainMenu,addPlayersMenu} from './../templates/menusTemplate.js'; 
 import {loaderMenus,loaderAlerts} from './core/loader.js'; 
-
+import {app} from '../index.js'; 
 
 export class Game{    
     constructor(){
@@ -58,7 +58,7 @@ export class Game{
                 //set timeout para que le de tiempo a pintar el ultimo numero
                 setTimeout(function(){
                     //  alert("Bingo Player "+player); 
-                    loaderAlerts(bingolineaTemplate("bingo",player),stop,"bingo");
+                    loaderAlerts(bingolineaTemplate("bingo",player),loaderMenus(mainMenu),"bingo");
                 }, 1);
                 document.getElementById('info').innerHTML+= "WINNER "+player+"<br>";
                 
