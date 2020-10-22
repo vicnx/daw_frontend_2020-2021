@@ -18,9 +18,11 @@ export function mainMenu(){
         functions: ()=> {
             //new game click
             document.getElementById('newgame').onclick = function() {
+                document.getElementById('startscreen_main').remove();
                 new Game();//start new game
                 //ocultamos menu inicio y mostramos menu de add players
-                document.getElementById('startscreen_main').style.display = "none";
+                // document.getElementById('startscreen_main').remove();
+
                 document.getElementById('menu').style.display = "block";
             }
         } 
@@ -31,7 +33,7 @@ export function mainMenu(){
 export function addPlayersMenu(){
     let addPlayersMenu = {
         html:`<div id="startscreen_add" class="startscreen">
-                <div id="menu" class="startscreen__menu--addplayers" style="display: none;">
+                <div id="menu" class="startscreen__menu--addplayers" >
                     <div class="startscreen__menu__players">
                         <h2>PLAYERS</h2>
                         <div class="startscreen__menu__players startscreen__menu__players__list" id="players"></div>
@@ -95,7 +97,7 @@ export function addPlayersMenu(){
                     }
                 }
                 if (ok== true){
-                    menu.style.display = "none"
+                    menu.remove()
                     start(players_name);
                 }else{
                     alert("Revisa todos los campos")

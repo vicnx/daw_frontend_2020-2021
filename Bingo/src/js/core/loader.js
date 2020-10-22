@@ -1,7 +1,10 @@
 import {debug} from "./core";
 
 export let loaderMenus = (template,params) => {
-    debug(template);
+    document.getElementById('caja').innerHTML = "";
+    document.getElementById('bingoboard').innerHTML = "";
+    document.getElementById('info').innerHTML = "";
+    // debug(template);
     let parser = new DOMParser();
     let menu = parser.parseFromString(template().html, "text/html");
     let el = menu.body.firstChild;
@@ -22,23 +25,36 @@ export let loaderAlerts = (templateHtml,callback,type) => {
     if(type == "line"){
         setTimeout(function(){ el.remove(); }, 2000);
     }
+
+    if(type=="bingo"){
+        document.getElementById("info").innerHTML += '<button style="display: none"class="btn" id="bingo_btn">Main Menu</button>'
+        document.getElementById("bingo_btn").style.display = "block"
+        document.getElementById("bingo_btn").onclick = function(){
+            if(callback != null){
+                callback();
+            }     
+        };
+    }
     
 
     span.onclick = function() {
         el.remove();
         // el.style.display = "none"; 
         if(callback != null){
-            callback();
+            debug("span onclcik")
+            // callback();
         }      
         
     }
-    window.onclick = function(event) {
-        el.remove();
-        // el.style.display = "none"; 
-        if(callback != null){
-            callback();
-        } 
-    }
+    // window.onclick = function(event) {
+    //     el.remove();
+        
+    //     // el.style.display = "none"; 
+    //     if(callback != null){
+    //         debug("span onclcik")
+    //         callback();
+    //     } 
+    // }
     
 }
 
@@ -48,7 +64,7 @@ export let loaderCards = (template,player,cardMatrix,extractedBalls) => {
     let parser = new DOMParser();
     let menu = parser.parseFromString(template(player,cardMatrix,extractedBalls).html, "text/html");
     let el = menu.body.firstChild;
-    document.body.appendChild(el);
+    document.getElementById('bingoboard').appendChild(el);
     //params es por si queremos mandar algun callback a las funciones internaas de la plantilla
     // template().functions(params); //cargamos las funciones de los botones de la plantilla de ese menu
     

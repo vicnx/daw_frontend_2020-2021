@@ -18,6 +18,7 @@ export function bingolineaTemplate(type,player){
         <div class="modal__content__inside">
             <h1 class="modal__content__inside__tipo">${type}</h1>
             <p class="modal__content__inside__player">${player}</p>
+            <button style="display: none"class="btn" id="bingo_btn">Main Menu</button>
         </div> 
     </div>  
 </div>

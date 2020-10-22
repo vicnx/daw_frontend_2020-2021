@@ -58,7 +58,7 @@ export class Game{
                 //set timeout para que le de tiempo a pintar el ultimo numero
                 setTimeout(function(){
                     //  alert("Bingo Player "+player); 
-                    loaderAlerts(bingolineaTemplate("bingo",player),loaderMenus(mainMenu),"bingo");
+                    loaderAlerts(bingolineaTemplate("bingo",player),()=>{loaderMenus(mainMenu)},"bingo");
                 }, 1);
                 document.getElementById('info').innerHTML+= "WINNER "+player+"<br>";
                 
