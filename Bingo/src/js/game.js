@@ -2,11 +2,12 @@ import {Bombo} from './bombo.js';
 import {BingoCard} from './card.js';
 import { PubSub } from './core/pubSub.js';
 import {bingolineaTemplate} from './../templates/modal.js'
-import {showModalAlert} from './core/core.js'; 
+import {showModalAlert,debug} from './core/core.js'; 
 
 
 export class Game{    
     constructor(){
+        debug("New game created");
         // this.id = Math.round(Math.random() * 100000);
         this.players = [];
         let bombo;
@@ -33,6 +34,7 @@ export class Game{
             // console.log(bombo)
             stateApp = "run";
             pubSub.subscribe("LINIA",(player) => {
+                debug("Linea");
                 pubSub.unsubscribe("LINIA");
                 setTimeout(function(){
                     showModalAlert(bingolineaTemplate("line",player),null,"line");
@@ -42,6 +44,7 @@ export class Game{
             })
             
             pubSub.subscribe("BINGO",(player) => {
+                debug("Bingo");
                 pubSub.unsubscribe("BINGO");
                 //primero paramos el juego y despues mostramos la alerta
                 stop();

@@ -7,6 +7,12 @@ let docReady = (fn) => {
     }
 }    
 
+const db = true;
+
+let debug = (text) =>{
+    if(db) console.log(text);
+}
+
 let showModalAlert = (templateHtml,callback,type) => {
     let parser = new DOMParser();
     let modal = parser.parseFromString(templateHtml, "text/html");
@@ -38,4 +44,4 @@ let showModalAlert = (templateHtml,callback,type) => {
     
 }
 
-export {docReady,showModalAlert};
+export {docReady,showModalAlert,debug};

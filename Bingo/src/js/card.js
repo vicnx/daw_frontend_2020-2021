@@ -1,3 +1,6 @@
+import {debug} from './core/core.js'; 
+
+
 export class BingoCard{   
     
      constructor(player_,pubSub=undefined){
@@ -46,7 +49,7 @@ export class BingoCard{
                     });
                     out+="</tr>";
                })
-               // console.log(board);
+               debug(board);
                cardPlayer.innerHTML = out;
                checkBingo(cardMatrix,extractedBalls,pubSub,player);   
           }  
@@ -76,10 +79,10 @@ export class BingoCard{
 }
 function checkBingo(cardMatrix,extractedBalls,pubSub,player){
      let bingo=true;
-     // console.log("checkbingo");
+     debug("checkbingo");
      cardMatrix.forEach((row)=>{
           let linia = row.filter((val)=> {if (extractedBalls.indexOf(val)<=0) return val }).length;   
-          // console.log(row.filter((val)=> {if (extractedBalls.indexOf(val)<=0) return val }).length);      
+          // debug(row.filter((val)=> {if (extractedBalls.indexOf(val)<=0) return val }).length);      
           if (linia>0) bingo=false; 
           else pubSub.publish("LINIA",player);       
      })     
