@@ -41,8 +41,9 @@ export let loaderAlerts = (templateHtml,callback,type) => {
     
 }
 
+//para cargar las cards
 export let loaderCards = (template,player,cardMatrix,extractedBalls) => {
-    debug(template(player,cardMatrix,extractedBalls).html);
+    // debug(template(player,cardMatrix,extractedBalls).html);
     let parser = new DOMParser();
     let menu = parser.parseFromString(template(player,cardMatrix,extractedBalls).html, "text/html");
     let el = menu.body.firstChild;

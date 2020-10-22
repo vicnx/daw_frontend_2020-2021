@@ -9,7 +9,7 @@ export function renderCard(player,cardMatrix){
             if (cellValue==null){
                  out+="<th class='nulo'></th>";
             }else{
-                 out+="<th id='number_card_"+cellValue+"'>"+cellValue+"</th>";
+                 out+="<th class='number_card_"+cellValue+"'>"+cellValue+"</th>";
             }
             });
             out+="</tr>";

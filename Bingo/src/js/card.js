@@ -59,9 +59,14 @@ export class BingoCard{
           // }  
 
           let paint_number_ball = (data) =>{
-               if(document.getElementById("number_card_"+data.num)){
-                    let render_num=document.getElementById("number_card_"+data.num);
-                    render_num.classList.add("active");
+               if(document.getElementsByClassName("number_card_"+data.num)){
+                    //los cogemos por class porque puede haber mas de uno y despues hacemos un for y le añadimos a cada uno de los recogidos la clase active
+                    let elements=document.getElementsByClassName("number_card_"+data.num);
+                    // debug(elements)
+                    for (var el  of elements) {
+                         el.classList.add("active")                         
+                    }
+                    // elements.forEach(el=>el.classList.add("active"))
                     checkBingo(cardMatrix,data.extractedBalls,pubSub,player);   
                }
           }
