@@ -15,19 +15,25 @@ export const modalPlayers =()=>{
                 uList.appendChild(li);
             });
             addButton.addEventListener("click",(event)=>{            
-                            
-                let li=document.createElement('li');
-                li.innerHTML = `<span class='players'>${uList.children.length+1}</span><p>${document.getElementById("fname").value}</p>`;
-                uList.appendChild(li);
-                if (window.localStorage){
-                    playersNames.push(document.getElementById("fname").value);
-                    localStorage.setItem('playersNames',JSON.stringify(playersNames));
-                }
-                li.addEventListener('click',(event) => {
-                    li.remove();
-                    playersNames=playersNames.filter((item) => item!=li.innerHTML)
-                    localStorage.setItem('playersNames',JSON.stringify(playersNames));
-                })
+                //Antes de añadir un usuario comprobamos si el input tiene almenos un caracter.
+                var regex_player=/\S/;
+                if(regex_player.test(document.getElementById("fname").value)){
+                    let li=document.createElement('li');
+                    li.innerHTML = `<span class='players'>${uList.children.length+1}</span><p>${document.getElementById("fname").value}</p>`;
+                    uList.appendChild(li);
+                    if (window.localStorage){
+                        playersNames.push(document.getElementById("fname").value);
+                        localStorage.setItem('playersNames',JSON.stringify(playersNames));
+                    }
+                    li.addEventListener('click',(event) => {
+                        li.remove();
+                        playersNames=playersNames.filter((item) => item!=li.innerHTML)
+                        localStorage.setItem('playersNames',JSON.stringify(playersNames));
+                    })
+                }else{
+                    alert("No puedes insertar un usuario sin nombre");
+                }            
+
             })
         }
         let unmuteBtn=document.getElementById('unmuteBtn');

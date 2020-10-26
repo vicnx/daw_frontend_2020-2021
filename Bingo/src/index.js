@@ -1,4 +1,3 @@
-
 import './css/style.css';
 import {docReady,showModal} from './js/core/core.js'; 
 import './js/card.js';
@@ -7,6 +6,7 @@ import {BingoCard} from './js/card.js';
 import {PubSub} from './js/core/pubSub.js';
 import {modalPlayers} from './templates/modalPlayers.js';
 import {modalBingo} from './templates/modalBingo.js';
+import {modalLiniaBingo} from './templates/modalLiniaBingo.js';
 import {modalLinia} from './templates/modalLinia.js';
 import video from './videos/los_bingueros.mp4';
 
@@ -34,43 +34,50 @@ const app = (() => {
         clearInterval(myApp);
     }
     let start = () => {
-        let videoEl= document.getElementById('videoBackground');
-        if (videoEl) videoEl.remove();
-        pubSub = new PubSub();
-        bombo = new Bombo(document.getElementById('balls'));
-        stateApp = "run";
-        pubSub.subscribe("LINIA",(player) => {
-            console.log("Linia");
-            pubSub.unsubscribe("LINIA");
-            stop();
-            setTimeout(function() {                 
-                showModal(modalLinia(player),function(){
-                    myApp = setInterval(play,speed);
-                })
+        if(JSON.parse(localStorage.getItem('playersNames')).length!=0){
+            let videoEl= document.getElementById('videoBackground');
+            if (videoEl) videoEl.remove();
+            pubSub = new PubSub();
+            bombo = new Bombo(document.getElementById('balls'));
+            stateApp = "run";
+            pubSub.subscribe("LINIA",(player) => {
+                console.log("Linia");
+                pubSub.unsubscribe("LINIA");
+                stop();
+                setTimeout(function() {                 
+                    showModal(modalLiniaBingo(player,"linea"),function(){
+                        myApp = setInterval(play,speed);
+                    })
+                    
+                }, 50);
                 
-            }, 50);
-            
-            
-        });
-        pubSub.subscribe("BINGO",(player) => {            
-            stop();
-            setTimeout(function() { 
-                pubSub.unsubscribe("BINGO");                
-                showModal(modalBingo(player),function(){
-                    setupBackgroundVideo();
-                    showModal(modalPlayers(),app.start)
-                })
-            }, 50);                        
-        });
-        players = [];
-       
-        let playersNames = JSON.parse(localStorage.getItem('playersNames'));
-        document.getElementById('bingoCards').innerHTML=""
-        playersNames.forEach(name => {
-            players.push(new BingoCard(name,document.getElementById('bingoCards'),pubSub));
-        });
-        play();
-        myApp = setInterval(play,speed); 
+                
+            });
+            pubSub.subscribe("BINGO",(player) => {            
+                stop();
+                setTimeout(function() { 
+                    pubSub.unsubscribe("BINGO");                
+                    showModal(modalLiniaBingo(player,"bingo"),function(){
+                        setupBackgroundVideo();
+                        showModal(modalPlayers(),app.start)
+                    })
+                }, 50);                        
+            });
+            players = [];
+           
+            let playersNames = JSON.parse(localStorage.getItem('playersNames'));
+            // console.log(playersNames);
+            document.getElementById('bingoCards').innerHTML=""
+            playersNames.forEach(name => {
+                players.push(new BingoCard(name,document.getElementById('bingoCards'),pubSub));
+            });
+            play();
+            myApp = setInterval(play,speed); 
+        }else{
+            alert("Introduce almenos un jugador");
+            showModal(modalPlayers(),app.start);
+        }
+
     }
 
     return {start: start
