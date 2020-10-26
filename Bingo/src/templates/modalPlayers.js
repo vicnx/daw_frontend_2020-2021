@@ -8,12 +8,21 @@ export const modalPlayers =()=>{
                 let li=document.createElement('li');
                 li.innerHTML = `<span class='players'>${index+1}</span><p>${name}</p>`;
                 li.addEventListener('click',(event) => {
-                    li.remove();
                     playersNames=playersNames.filter((item) => item!=name)
+                    console.log(playersNames);
                     localStorage.setItem('playersNames',JSON.stringify(playersNames));
+                    li.remove();
+
                 })
                 uList.appendChild(li);
             });
+            // let remove = ()=>{
+            //     console.log(this.parentElement.nodeName)
+            //     playersNames=playersNames.filter((item) => item!=this.innerHTML)
+            //     // console.log(playersNames);
+            //     localStorage.setItem('playersNames',JSON.stringify(playersNames));
+            //     this.remove();
+            // }
             addButton.addEventListener("click",(event)=>{            
                 //Antes de añadir un usuario comprobamos si el input tiene almenos un caracter.
                 var regex_player=/\S/;
@@ -25,17 +34,30 @@ export const modalPlayers =()=>{
                         playersNames.push(document.getElementById("fname").value);
                         localStorage.setItem('playersNames',JSON.stringify(playersNames));
                     }
-                    li.addEventListener('click',(event) => {
-                        li.remove();
-                        playersNames=playersNames.filter((item) => item!=li.innerHTML)
+                    //continuar funcion remove (intentar recoger el valor de P)
+                    let remove = function() {
+                        console.log(this.innerHTML)
+                        playersNames=playersNames.filter((item) => item!=this.innerHTML)
+                        // console.log(playersNames);
                         localStorage.setItem('playersNames',JSON.stringify(playersNames));
-                    })
+                        this.remove();
+                    }
+                    li.addEventListener('click',remove);
+                    // li.addEventListener('click',(event) => {
+                    //     // console.log(this);
+                    //     playersNames=playersNames.filter((item) => item!=li.innerHTML)
+                    //     // console.log(playersNames);
+                    //     localStorage.setItem('playersNames',JSON.stringify(playersNames));
+                    //     li.remove();
+                    // })
                 }else{
                     alert("No puedes insertar un usuario sin nombre");
                 }            
 
             })
+
         }
+
         let unmuteBtn=document.getElementById('unmuteBtn');
         unmuteBtn.addEventListener('click', function() {
             console.log("galdll");

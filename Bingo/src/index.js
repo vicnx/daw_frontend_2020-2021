@@ -66,7 +66,7 @@ const app = (() => {
             players = [];
            
             let playersNames = JSON.parse(localStorage.getItem('playersNames'));
-            // console.log(playersNames);
+            console.log(playersNames);
             document.getElementById('bingoCards').innerHTML=""
             playersNames.forEach(name => {
                 players.push(new BingoCard(name,document.getElementById('bingoCards'),pubSub));
