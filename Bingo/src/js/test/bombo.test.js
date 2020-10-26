@@ -2,15 +2,16 @@
 import {Bombo} from '../bombo.js';
 
 describe('Generate bingo bombo', () => {
-  //mock para que funcione
-  document.body.innerHTML =
-  '<div>' +
-  '  <div id="balls" />' +
-  '  <div id="caja" />' +
-  '</div>';
+  let bombo;
+  beforeAll(()=>{
+    document.body.innerHTML =`<div> 
+                        <div id="balls"></div>
+                         </div>`;
+    bombo = new Bombo(document.getElementById('balls')); 
 
-  let bombo = new Bombo(document.getElementById('balls'),document.getElementById('caja'));  
+  });
   
+   
   test('Not number extracted yet', () => {
     expect(bombo.getExtractedNumbers().length).toEqual(0)
   });
@@ -25,7 +26,7 @@ describe('Generate bingo bombo', () => {
   });
 
   test('Numbers between 1 and 90', () => {
-    let bombo = new Bombo(document.getElementById('balls'),document.getElementById('caja'));  
+    bombo = new Bombo(document.getElementById('balls'));  
     let num=bombo.pickNumber();
     do{        
         expect((num>=1 & num<=90)).toBeTruthy();
@@ -35,7 +36,7 @@ describe('Generate bingo bombo', () => {
   });
 
   test('Not duplicates', () => {
-    let bombo = new Bombo(document.getElementById('balls'),document.getElementById('caja'));  
+    bombo = new Bombo(document.getElementById('balls'));  
     let extracted=[]
     let num=bombo.pickNumber();    
     do{                
@@ -43,6 +44,7 @@ describe('Generate bingo bombo', () => {
         num=bombo.pickNumber();        
     }while(num!=false); 
     expect(!hasDuplicates(extracted)).toBeTruthy();
+    
   });
 
 

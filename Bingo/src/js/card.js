@@ -1,22 +1,18 @@
-import {debug} from './core/core.js'; 
-import { loaderCards } from './core/loader.js';
-import {renderCard} from '../templates/cardTemplate.js'; 
-
-
 export class BingoCard{   
     
-     constructor(player_,pubSub=undefined){
-          let board=document.getElementById('bingoboard');
+     constructor(player_,rootElement,pubSub=undefined){
           let player = player_;
           let templateRow = [0,1,2,3,4,5,6,7,8];
           let cardMatrix = [[...templateRow],[...templateRow],[...templateRow]];
+          let divRoot = document.createElement('div');
+          rootElement.appendChild(divRoot);
           //Transpose matrix to fullfill all cells with random numbers
           let transposedcardMatrix=transpose(cardMatrix);
           transposedcardMatrix.forEach((colCard,index) =>{   
                transposedcardMatrix[index] = getRandomArbitrary(index*10,(index*10)+10,3);
           });     
-          //Again transpose to get original shape
           
+          //Again transpose to get original shape          
           cardMatrix = transpose(transposedcardMatrix);                            
                         
           let row1Blanks=getBlanks(templateRow);//Get four empty cells
@@ -30,85 +26,51 @@ export class BingoCard{
           row1Blanks.forEach((elem)=>cardMatrix[0][elem]=null);//Put a null in every empty picked cell row1
           row2Blanks.forEach((elem)=>cardMatrix[1][elem]=null);//Put a null in every empty picked cell row2
           row3Blanks.forEach((elem)=>cardMatrix[2][elem]=null);  
-           
-          //NO SE UTILIZA
-          // let render = (extractedBalls=[]) => {
-               
-          //      // debug(extractedBalls)
-          //      //esta funcion esta modificada para que modifique cada tarjeta de cada jugador
-          //      let cardPlayer=document.getElementById(player);
-          //      let out="";
-          //      cardMatrix.forEach((row)=>{
-          //           out+="<tr>"
-          //           row.forEach((cellValue)=>{
-          //           if (cellValue==null){
-          //                out+="<th class='nulo'></th>";
-          //           }else{
-          //                if (extractedBalls && extractedBalls.indexOf(cellValue) >= 0){
-          //                     out+="<th class='extracted'>"+cellValue+"</th>";                                  
-          //                }else{
-          //                     out+="<th>"+cellValue+"</th>";
-          //                }
-          //           }
-          //           });
-          //           out+="</tr>";
-          //      })
-          //      // debug(board);
-          //      cardPlayer.innerHTML = out;
-          //      checkBingo(cardMatrix,extractedBalls,pubSub,player);   
-          // }  
+         
+          let render = (extractedBalls=[]) => {
+                              
+               let out =`<h1>Player ${player}</h1>
+                    <table class='bingoCard'>
+                       
+                        `+
+                         cardMatrix.map((value) => 
+                         "<tr>"+value.map((val) =>{
+                              if (val==null){
+                                   return "<th class='nulo'></th>"
+                              }else{
+                                   if (extractedBalls && extractedBalls.indexOf(val) >= 0){
+                                        return "<th class='extracted'>"+val+"</th>";                                  
+                                   }else{
+                                        return "<th>"+val+"</th>"
+                                   }
+                              }}).join("")
+                         +"</tr>"                          
+                         ).join("")+
+                    `</table>`;
 
-          let paint_number_ball = (data) =>{
-               if(document.getElementsByClassName("number_card_"+data.num)){
-                    //los cogemos por class porque puede haber mas de uno y despues hacemos un for y le añadimos a cada uno de los recogidos la clase active
-                    let elements=document.getElementsByClassName("number_card_"+data.num);
-                    // debug(elements)
-                    for (var el  of elements) {
-                         el.classList.add("active")                         
-                    }
-                    // elements.forEach(el=>el.classList.add("active"))
-                    checkBingo(cardMatrix,data.extractedBalls,pubSub,player);   
-               }
-          }
-          
-          let draw_bingo_cards = (extractedBalls=[]) =>{
-               loaderCards(renderCard,player,cardMatrix,extractedBalls);
-               // let out="<div id='div_"+player+"'><h1>"+player+"</h1>";
-               // out+="<table id='"+player+"' class='bingoCard'>"         
-               // cardMatrix.forEach((row)=>{
-               //      out+="<tr>"
-               //      row.forEach((cellValue)=>{
-               //      if (cellValue==null){
-               //           out+="<th class='nulo'></th>";
-               //      }else{
-               //           out+="<th>"+cellValue+"</th>";
-               //      }
-               //      });
-               //      out+="</tr>";
-               // })
-               // out+="</table></div>";
-               // board.innerHTML += out;
-          }
-          //primero pintamos las tarjetas d elos jugadores
-          draw_bingo_cards();
-          if (pubSub) pubSub.subscribe("New Number",paint_number_ball);
-          // if (pubSub) pubSub.subscribe("Last Number",render);
-          // if (pubSub) pubSub.subscribe("New Number",render);
-          
-          
-     }     
+               divRoot.innerHTML = out;
+               
+               checkBingo(cardMatrix,extractedBalls,pubSub,player);   
+               //return out;
+          }  
+               
+          if (pubSub) pubSub.subscribe("New Number",render);
+          this.getMatrix = ()=> cardMatrix;          
+     }        
 }
+
 function checkBingo(cardMatrix,extractedBalls,pubSub,player){
-     let bingo=true;
-     debug("checkbingo");
+     let bingo=true;     
      cardMatrix.forEach((row)=>{
-          let linia = row.filter((val)=> {if (extractedBalls.indexOf(val)<=0) return val }).length;   
-          // debug(row.filter((val)=> {if (extractedBalls.indexOf(val)<=0) return val }).length);      
+          let linia = row.filter((val)=> {if (extractedBalls.indexOf(val)<=0) return val }).length;         
           if (linia>0) bingo=false; 
           else pubSub.publish("LINIA",player);       
      })     
 
-     if (bingo) pubSub.publish("BINGO",player)
+     if (bingo) {
+          pubSub.publish("BINGO",player)
+          console.log("BINGO "+player)
+     }
 }
 /**
  * Returns count random numbers between min (inclusive) and max (exclusive)
@@ -130,17 +92,9 @@ function getBlanks([...ai]){
      iterator.forEach((el)=>{
           ai.splice(Math.floor(Math.random()*ai.length),1);          
      });
-     return ai;             
-     //return ai.map((elem) => Math.floor(elem/10))        
+     return ai;                    
 }
 //Transpose a matrix
-function transpose(matrix){
-          
-     return matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));     
-     
+function transpose(matrix){          
+     return matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));    
 }
-
-
-
-
-//export {generateBingoCard,renderBingoCard};

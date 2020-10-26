@@ -1,0 +1,122 @@
+html{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+body{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex; /* or css grid for more intricate layouts */
+    flex-direction: column;
+}
+.startscreen{
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
+    font-weight: 100;
+    font-size: 12px;
+    line-height: 30px;
+    color: rgb(0, 0, 0);
+    background-color: LightCoral;
+    height: 100%;
+    /* flex-grow: 1; make it stretch to the bottom even if little content */
+    /* overflow-y: scroll; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.startscreen__menu--addplayers{
+    width: 400px;
+    height: 500px;
+    background: #F9F9F9;
+    padding: 25px;
+    margin: 150px 0;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.startscreen__menu--inicio{
+    width: 400px;
+    height: 200px;
+    background: #F9F9F9;
+    padding: 25px;
+    margin: 150px 0;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.startscreen__menu__players{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+.startscreen__menu__games{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    /* justify-content: center; */
+    align-items: center;
+}
+.startscreen__menu__players .player_div{
+    font: 400 12px/16px "Roboto", Helvetica, Arial, sans-serif;
+    width: 100%;
+    
+    margin: 0 0 5px;
+    padding: 10px;
+}
+
+.startscreen__menu__players .player_div input{
+    border: 1px solid #ccc;
+    background: #FFF;
+    margin: 0 0 5px;
+    padding: 10px;
+    
+}
+
+.startscreen__menu__players .player_div button{
+    margin: 0 0 5px;
+    padding: 10px;
+}
+
+.btn{
+    margin-top: 25px;
+    background: white;
+    /* border: 0; */
+    border-radius: 0.25rem;
+    padding: 0.5rem 1.5rem;
+    /* transition: all 0.3s ease-in; */
+    cursor: pointer;
+    color: rgb(0, 0, 0);
+    font-size: 1rem;
+    font-weight: 600px;
+    border: 1px solid black;
+}
+
+.btn:hover:enabled{
+    cursor: pointer;
+    background: rgb(255, 220, 220);
+}
+/* .btn:active{
+    border: 5px solid;
+    box-shadow: 5px rgb(250, 150, 150);
+} */
+
+button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+
+.startscreen__menu__players__list{
+    min-height: 390px;
+    max-height: 390px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.startscreen__menu__games__list{
+    min-height: 90px;
+    max-height: 90px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

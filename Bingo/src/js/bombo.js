@@ -1,38 +1,20 @@
-import { PubSub } from './core/pubSub.js';
-
 export class Bombo{    
-    constructor(rootElement,caja){
-        let pubSub = new PubSub();
-        let boles = Array.from({length:90},(_,i) => i + 1);
+    constructor(rootElement){
+        const templateBombo = Array.from({length:90},(_,i) => i + 1);
+        let boles = [...templateBombo];
         let bolesExtracted = [];
         let shuffle = () => boles.sort((a,b) => Math.random()-0.5);         
         this.getExtractedNumbers= () =>  bolesExtracted;
         this.getRemainingBoles = () => boles;
         this.pickNumber = () => {
             shuffle();             
-            boles[0] && bolesExtracted.push(boles[0]);  
-            //publicamos el ultimo numero
-            if (boles[0]) this.render(boles[0])  
+            boles[0] && bolesExtracted.push(boles[0]);          
+            if (boles[0]) render(boles[0])             
             return (boles.length>0 && boles.splice(0,1))?bolesExtracted[bolesExtracted.length-1]:false;            
         }
-        this.render = (num) => {
-            document.getElementById(num).classList.add("active");
+        let render = (num) => {
+            let tpl_nums = templateBombo.map((item) => bolesExtracted.includes(item)?{num:item,className:'bingoBall'}:{num:item,className:'bingoBallEmpty'})
+            rootElement.innerHTML = `${tpl_nums.map(a=>  `<div class='${a.className}'>${a.num}</div>`).join("")}`; 
         }
-
-        let rendercaja = (boles) => {
-            // let html = "CAJA";
-            boles.forEach(bola => {
-                let cajaballDiv = document.createElement('div');
-                cajaballDiv.className = 'bingoBall';
-                cajaballDiv.id = bola;
-
-                cajaballDiv.textContent = bola;
-                caja.appendChild(cajaballDiv);
-            });
-
-       }   
-
-       //renderizamos la caja la primera vez
-       rendercaja(boles);
     }   
 }
