@@ -28,6 +28,7 @@ export const modalPlayers =()=>{
                 var regex_player=/\S/;
                 if(regex_player.test(document.getElementById("fname").value)){
                     let li=document.createElement('li');
+                    li.id = document.getElementById("fname").value
                     li.innerHTML = `<span class='players'>${uList.children.length+1}</span><p>${document.getElementById("fname").value}</p>`;
                     uList.appendChild(li);
                     if (window.localStorage){
@@ -35,10 +36,9 @@ export const modalPlayers =()=>{
                         localStorage.setItem('playersNames',JSON.stringify(playersNames));
                     }
                     //continuar funcion remove (intentar recoger el valor de P)
+                    //funcion remove reparada añadiendo ID al li.
                     let remove = function() {
-                        console.log(this.innerHTML)
-                        playersNames=playersNames.filter((item) => item!=this.innerHTML)
-                        // console.log(playersNames);
+                        playersNames=playersNames.filter((item) => item!=this.id)
                         localStorage.setItem('playersNames',JSON.stringify(playersNames));
                         this.remove();
                     }
