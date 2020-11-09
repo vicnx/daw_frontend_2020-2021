@@ -32,6 +32,7 @@ function main(){
              if (DEBUG) console.log("Message is received...");
           });
           socket.on('player_info', function(user){  
+            document.getElementById("chatMessages").innerHTML = "<li style='background-color:green'>"+JSON.stringify(user)+"</li>"+ document.getElementById("chatMessages").innerHTML;
             //   console.log(user);                
             debug(user);
         });
