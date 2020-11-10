@@ -55,6 +55,9 @@
    <script type="text/javascript">
       let nickname = prompt("El teu nickname", "Harry Potter");
       let DEBUG = true;
+      let extractedBalls = [];
+      let player;
+      let cantar_linea = true;
       function WebSocketChat() {
 
 
@@ -67,7 +70,7 @@
                let inputMessage = document.getElementById('message');
                //socket.emit('newMessage',`${nickname}: ${inputMessage.value}`)
                socket.emit('join', nickname);
-
+               
             }
 
             socket.on('connect', () => {
@@ -77,18 +80,22 @@
             //Event triggered every time a user joins a 
             //game where we are enrolled
             socket.on('joined', function (msg) {
+               let total_players = [];
                let messagesDiv = document.getElementById("chatMessages");
-               messagesDiv.innerHTML = "<li>" + msg + "</li>" + messagesDiv.innerHTML;
+               msg.players.forEach(p =>total_players.push(p.username))
+               messagesDiv.innerHTML = "<li><b>ACTUAL PLAYERS:</b> " + total_players + "</li>" + messagesDiv.innerHTML;
             });
               
             /* Event triggered once a user joins a 
             * game ang get a ramdom card with unique id that 
             * should not ve shared
             */
-            socket.on('joined_game', function (msg) {
+            socket.on('joined_game', function (playerFull) {
                let messagesDiv = document.getElementById("chatMessages");
-               console.log(msg);
-               messagesDiv.innerHTML = "<li style='background-color: red'>" + msg + "</li>" + messagesDiv.innerHTML;
+               player=playerFull;
+               player.nickname=nickname
+
+               messagesDiv.innerHTML = "<li style='background-color: red'>" + JSON.stringify(playerFull) + "</li>" + messagesDiv.innerHTML;
             });
             //Event notifying starts the game
             socket.on('starts_game', function (msg) {
@@ -97,13 +104,45 @@
                //messagesDiv.innerHTML = "";
             });
 
-            socket.on('new_number', function (msg) {
+            socket.on('new_number', function (number) {
                let messagesDiv = document.getElementById("chatMessages");
-               console.log(msg);
-               messagesDiv.innerHTML = "NUMBER: " + msg.num + " playId="+msg.id+"<br>" + messagesDiv.innerHTML;
+               extractedBalls.push(number.num);
+               console.log(extractedBalls);
+               messagesDiv.innerHTML = "NUMBER: " + number.num + " playId="+number.id+"<br>" + messagesDiv.innerHTML;
+               checkBingo(player.cardMatrix,extractedBalls,player);
+               player.idplay = number.id;
+               function checkBingo(cardMatrix,extractedBalls,player){
+                  console.log("checkbingo");
+                  let bingo=true;     
+                  cardMatrix.forEach((row)=>{
+                        let linia = row.filter((val)=> {if (extractedBalls.indexOf(val)<=0) return val }).length;     
+                        if (linia>0){
+                           bingo=false; 
+                        } 
+                        else{
+                           console.log(cantar_linea);
+                           if(cantar_linea){
+                              console.log("LINEA");
+                              socket.emit('linea', player);
+                           }
+                        }       
+                  })     
+                  if (bingo) {
+                        socket.emit('bingo', player)
+                        console.log("BINGO");
+                  }
+               }
             });
             socket.on('end_game', function (msg) {               
                console.log(msg);               
+            });
+            socket.on('cantar_linea', function (player_linea) {
+               alert("LINEA DEL JUGADOR "+player_linea.nickname)
+               cantar_linea=false;
+            });
+
+            socket.on('cantar_bingo', function (player_bingo) {
+               alert("BINGO "+player_bingo.nickname)
             });
 
          } else {

@@ -4,7 +4,7 @@ let  bingoCard = require('./bingoCard.js');
 const gameController = () => {    
     let currentGame=new Map();
     const secsUntilBegin = 10;
-    const maxUsers = 3;
+    const maxUsers = 5;
     let countDown;
     
     //Maps id -> Map object with game informations
@@ -21,6 +21,7 @@ const gameController = () => {
     */
 
     let getCurrentGame = (cardHidden, pubSub) => {
+
         //There's no new game. So we create a new one
         if (currentGame.size == 0) {
             currentGame.set('id',Math.round(Math.random()*10000000));
@@ -44,6 +45,10 @@ const gameController = () => {
                 gamesOnFire.set(realGame.id,realGame)
 
                 let bomboInterval = setInterval(() => {
+                    pubSub.subscribe("bingo", () => {
+                        console.log("STOP");
+                        clearInterval(bomboInterval);
+                    });
                     let num = bombo.pickNumber();
                     if (num){ 
                         pubSub.publish("new_number",{id:realGame.get('id'),num:num});
@@ -52,7 +57,7 @@ const gameController = () => {
                         //Stop throwing balls from bombo
                         clearInterval(bomboInterval);
                     }
-                }, 1000);
+                }, 200);
 
             }, secsUntilBegin * 1000);
 
@@ -73,8 +78,8 @@ const gameController = () => {
                 clearInterval(countDown);
             },100);
             }
-            
         }
+
         return {id:currentGame.get('id'),players:currentGame.get('listPlayers'),countDown:currentGame.get('countDown')}
 
     } 

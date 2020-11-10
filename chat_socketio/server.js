@@ -16,8 +16,6 @@ app.get('/', (req, res) => {
 
 io.on('connect', (socket) => {
   let pubSub = new PubSub;
-   
-
     //A player wants to join a bingo game
     socket.on('join', playerName => {
       let bingoCard = new BingoCard(playerName);
@@ -38,11 +36,23 @@ io.on('connect', (socket) => {
       socket.join(game.id);
 
       //SEND TO JOINED USER THE CARD WITH ID AND CHECKSUM
-      io.to(socket.id).emit('joined_game', JSON.stringify(card));
+      io.to(socket.id).emit('joined_game', card);
 
       //SEND TO EVERY PLAYER IN THE GAME THAT NEW PLAYER HAS JOINED, AND ONLY THE CARDMATRIX and USERNAME
-      io.sockets.in(game.id).emit('joined',JSON.stringify(game));
+      io.sockets.in(game.id).emit('joined',game);
 
+      //CHECK LINEA
+      socket.on('linea',player =>{
+        player.checksum=null;
+        io.sockets.in(player.idplay).emit('cantar_linea',player);
+      })
+
+      //CHECK BINGO
+      socket.on('bingo',player =>{
+        player.checksum=null;
+        io.sockets.in(player.idplay).emit('cantar_bingo',player);
+        pubSub.publish("bingo");
+      })
 
       //PUBSUB ------
 
