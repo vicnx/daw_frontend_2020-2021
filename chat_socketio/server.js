@@ -3,8 +3,10 @@ let app = express();
 const http = require('http').createServer(app);
 let io = require('socket.io')(http);
 const { exec } = require('child_process');
-let  gameControler = require('./gameController.js');
-let  cardControler = require('./cardController.js');
+let  gameController = require('./gameController.js');
+let  bombo = require('./bombo.js');
+const PubSub = require('./pubSub.js');
+const BingoCard = require('./bingoCard.js');
 
 app.use(express.static('public'));
 
@@ -13,50 +15,54 @@ app.get('/', (req, res) => {
 });
 
 io.on('connect', (socket) => {
-    socket.on('hello', data => {
-        console.log('hola', data);
-    });
-    socket.on('join', data => {
+  let pubSub = new PubSub;
+   
 
-
-      //creamos el jugador (normal y global)
-      let player = cardControler.getPlayerdata(data);
-      //enviar informacion solo a ese cliente.
-      io.to(socket.id).emit('player_info', player.user);
-      /*
-      {
-        user:{username:x,cardmatrix:x,checksum:x},
-        user_global:{username:x,cardmatrix:x}
+    //A player wants to join a bingo game
+    socket.on('join', playerName => {
+      let bingoCard = new BingoCard(playerName);
+      // We create a random id in order to create a hash
+      // only known by joined user in order ti avoid fake cards
+      let card = {
+        id:"card_id_"+playerName,
+        cardMatrix:bingoCard.getMatrix(),
+        checksum:"checksum card"
       }
-      */
-      let game=gameControler.getCurrentGame(player.user_global);
-      /*
-      {id:xxxx,listPlayers:[],countDown:zzz,}
-      */
+      //Should be provided to other jooined players
+      let card_hidden = {
+        username: playerName,
+        card:bingoCard.getMatrix()
+      }
+     
+      let game=gameController.getCurrentGame(card_hidden,pubSub);
       socket.join(game.id);
-      //socket.to(game.id).emit(JSON.stringify(game))
+
+      //SEND TO JOINED USER THE CARD WITH ID AND CHECKSUM
+      io.to(socket.id).emit('joined_game', JSON.stringify(card));
+
+      //SEND TO EVERY PLAYER IN THE GAME THAT NEW PLAYER HAS JOINED, AND ONLY THE CARDMATRIX and USERNAME
       io.sockets.in(game.id).emit('joined',JSON.stringify(game));
-      // console.log(JSON.stringify(game)); 
-      
-      
 
-      // console.log('hola', data);
+
+      //PUBSUB ------
+
+      pubSub.subscribe("starts_game", (data) => {
+        io.sockets.in(game.id).emit('starts_game',data);
+        console.log("gameID="+game.id+"starts_game ->"+JSON.stringify(data))
+      });
+
+      pubSub.subscribe("new_number", (data) => {
+        if (data != false) io.sockets.in(game.id).emit('new_number',data);
+        console.log("gameID="+game.id+" new_number ->"+data.id+" "+data.num)
+      });
+
+      pubSub.subscribe("end_game", (data) => {
+        io.sockets.in(game.id).emit('end_game',data);
+      });
+
     });
 
-    socket.on('newMessage', data => {
-        io.emit('chat message',data);
-        console.log('new', data);
-        exec(`echo ${data} | festival --tts --language spanish`, (err, stdout, stderr) => {
-            if (err) {
-              // node couldn't execute the command
-              return;
-            }
-          
-            // the *entire* stdout and stderr (buffered)
-            console.log(`stdout: ${stdout}`);
-            console.log(`stderr: ${stderr}`);
-          });
-    });
+   
     
 });
 
@@ -64,3 +70,4 @@ http.listen(666, () => {
   console.log('listening on *:666');
 });
 
+module.exports = io;

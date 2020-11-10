@@ -2,5 +2,8 @@
 npm install 
 
 
-#run app
-node server.js
+# run app
+sudo node server.js
+
+# open browser
+http:/localhost:666
